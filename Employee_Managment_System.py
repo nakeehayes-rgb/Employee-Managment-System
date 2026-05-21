@@ -11,71 +11,51 @@ def get_employee_name():
     first_name = input("Enter your first name (or type 'ESC' to finish):  ")
     if first_name.upper() == "ESC":
         return "ESC", ""
-    
     last_name = input("Enter your last name:  ")
     return first_name, last_name
     
 def get_employee_id():
-    employee_id = input("Enter your employee ID:  ")
-    return employee_id
-
+    return input("Enter your employee ID:  ")
+    
 def get_hours_worked():
-    hours = float(input("Enter the numerical value of the hours you worked:  "))
-    return hours
-
+    return float(input("Enter the numerical value of the hours you worked:  "))
+    
 def get_hourly_rate():
-    rate = float(input("Enter the numerical value of your hourly wage:  "))
-    return rate
-
+    return float(input("Enter the numerical value of your hourly wage:  "))
 
 #Calculation Functions 
 
 def calculate_gross_pay(hours, rate): 
-    gross_pay = hours * rate
     if hours > 40:
-        standard_hours = 40
-        overtime_hours = hours - 40 
-        overtime_pay = overtime_hours * rate * 1.5
-        gross_pay = overtime_pay + standard_hours * rate
-        return gross_pay
-    else:
-        return gross_pay
+        return (40 * rate) + ((hours - 40) * rate * 1.5)
+    return hours * rate
 
 def calculate_deductions(gross_pay):
-    deductions = gross_pay * 0.25 
-    return deductions
+    return gross_pay * 0.25 
 
 def calculate_net_pay(gross_pay, deductions):
-    total_net = gross_pay - deductions
-    return total_net
+    return gross_pay - deductions
 
 #Display Functions 
 
 def display_employee_record(first_name, last_name, employee_id, hours, rate, gross_pay, deductions, total_net):
-    employees = []
     print("=" * 50)
     print(" -- EMPLOYEE RECORDS --")
     print("=" * 50)
     print(f"Employee: {first_name} {last_name}")
-    print(f"Employee ID: {employee_id}")
-    print(f"Hours Worked: {hours}")
-    print(f"Hourly Rate: {rate}")
-    print(f"Gross Pay: ${gross_pay:.2f}")
-    print(f"Deductions: ${deductions:.2f}")
-    print(f"Net Pay: ${total_net:.2f} ")
+    print(f" ID: {employee_id} | Hours: {hours} | Rate: {rate:.2f}")
+    print(f"Gross: ${gross_pay:.2f} | Deductions: ${deductions:.2f} | Net: ${total_net:.2f} ")
     print("=" * 50)
-    return first_name, hours, rate, gross_pay, deductions, total_net
 
 def display_summary(total_employees, total_gross, total_deductions, total_net):
     print("=" * 50)
-    print(" -- SUMMARY REPORTS --")
+    print(" -- FINAL SUMMARY REPORT --")
     print("=" * 50)
     print(f"Total Employees Processed: {total_employees}")
     print(f"Total Gross: ${total_gross:.2f}")
     print(f"Total Deductions: ${total_deductions:.2f}")
     print(f"Total Net: ${total_net:.2f}")
     print("=" * 50)
-    return total_employees, total_gross, total_deductions, total_net
 
 #Main Function
 
@@ -98,7 +78,7 @@ def main():
 
     while True:
         first_name, last_name = get_employee_name() #Here we are Unpacking - getting info out of a function
-        if first_name == "ESC":
+        if first_name.upper() == "ESC":
             break
         employee_id = get_employee_id() #Since I used return when defining the function, i have to assign it a varible when calling it. 
         hours = get_hours_worked()
@@ -112,13 +92,15 @@ def main():
         total_gross += gross 
         total_deductions += deductions
         total_net += net
+
+        display_employee_record(first_name, last_name, employee_id, hours, rate, gross, deductions, net)  #We pass this info into the function, as its needed to run
         
     #This has to be out the While True loop to work     
-    display_employee_record(first_name, last_name, employee_id, hours, rate, gross, deductions, net) #We pass this info into the function, as its needed to run
-    if len(first_name) > 0:
-            print("No summary to display.")
+    
+    if total_employees > 0:
+        display_summary(total_employees, total_gross, total_deductions, total_net)
     else:
-            display_summary(total_employees, total_gross, total_deductions, total_net)
+        print("No employees were processed. ")
     
 
         
