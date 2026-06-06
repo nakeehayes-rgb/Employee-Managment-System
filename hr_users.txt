@@ -1,0 +1,3 @@
+hrmanager|hr2024|HR Manager|Admin User
+hrstaff|staff123|HR Staff|Staff User
+Nhayes|Nakeeh90.|HR Staff|Nakee Hayes
